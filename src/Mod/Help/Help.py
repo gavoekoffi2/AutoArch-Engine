@@ -256,7 +256,7 @@ def show_browser(url):
             import webbrowser
 
             webbrowser.open_new(url)
-    except:
+    except Exception:
         import webbrowser
 
         webbrowser.open_new(url)
@@ -291,7 +291,7 @@ def get_qtwebwidgets():
 
     try:
         from PySide import QtWebEngineWidgets
-    except:
+    except Exception:
         FreeCAD.Console.PrintLog(LOGTXT + "\n")
         return False
     else:
@@ -308,7 +308,7 @@ def get_contents(location):
 
         try:
             r = urllib.request.urlopen(location)
-        except:
+        except Exception:
             return ERRORTXT
         contents = r.read().decode("utf8")
         return contents
@@ -332,7 +332,7 @@ def convert(content, force=None):
             from markdown.extensions import codehilite
 
             return markdown.markdown(m, extensions=["codehilite"])
-        except:
+        except Exception:
             return None
 
     def convert_pandoc(m):
@@ -340,7 +340,7 @@ def convert(content, force=None):
             import pypandoc
 
             return pypandoc.convert_text(m, "html", format="md")
-        except:
+        except Exception:
             return None
 
     def convert_github(m):
@@ -355,7 +355,7 @@ def convert(content, force=None):
                 .read()
                 .decode("utf8")
             )
-        except:
+        except Exception:
             return None
 
     def convert_raw(m):

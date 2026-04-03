@@ -144,7 +144,7 @@ def importVtkFCResult(filename, resultname, analysis=None, result_name_prefix=No
     ts = filenamebase.split("_")[-1]
     try:
         time_step = float(ts)
-    except:
+    except Exception:
         time_step = 0.0
     """
 

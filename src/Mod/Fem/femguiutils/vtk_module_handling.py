@@ -117,7 +117,7 @@ def _find_compatible_module():
                 sys.path = path
                 return folder
 
-        except:
+        except Exception:
             continue
 
     # reset the correct path and indicate that we failed

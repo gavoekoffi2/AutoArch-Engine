@@ -250,7 +250,7 @@ class Shape2DView(DraftObject):
                         onlysolids = obj.OnlySolids
                     try:
                         import Arch
-                    except:
+                    except ImportError:
                         print("Shape2DView: BIM not present, unable to recompute")
                         return
                     objs = groups.get_group_contents(objs, walls=True)

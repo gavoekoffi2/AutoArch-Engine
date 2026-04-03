@@ -44,7 +44,7 @@ try:
 
     # we could import Arch_rc, nothing to be done, either we are
     # running built-in BIM without the addon, or the addon without built-in BIM
-except:
+except ImportError:
     # Arch_rc not importable: We have both the BIM addon and the built-in BIM
     from pathlib import Path
     import FreeCAD

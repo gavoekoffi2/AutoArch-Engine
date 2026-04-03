@@ -1375,7 +1375,7 @@ def export(exportList, filename):
     if hidden_doc is not None:
         try:
             App.closeDocument(hidden_doc.Name)
-        except:
+        except Exception:
             pass
 
 

@@ -820,7 +820,7 @@ class _TaskPanel:
         FreeCAD.FEM_dialog["animate"][3] = self.result_widget.rb_full_cycle.isChecked()
         try:
             FreeCAD.FEM_dialog["animate"][4] = self.result_widget.sb_displacement_factor.value()
-        except:
+        except Exception:
             FreeCAD.FEM_dialog["animate"][4] = 1
 
     # animation start
@@ -882,7 +882,7 @@ class _TaskPanel:
         #         break
         try:
             self.result_widget.startButton.setText("Start Animation")
-        except:
+        except Exception:
             pass
         QtGui.QApplication.restoreOverrideCursor()
         self.startAnimate = False
@@ -900,7 +900,7 @@ class _TaskPanel:
         try:
             self.hsb_displacement_factor = self.result_widget.sb_displacement_factor.value()
 
-        except:
+        except Exception:
             pass
         return
 

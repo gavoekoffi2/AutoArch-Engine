@@ -229,13 +229,13 @@ def mesh_2_femmesh(myFemMesh, singleFaces, faceCodeDict):
         for j in (0, 1, 2):
             try:
                 nodes[face_nodes[j]] += 1
-            except:
+            except Exception:
                 nodes[face_nodes[j]] = 0
         if len(face_nodes) == 4:
             j = 3
             try:
                 nodes[face_nodes[j]] += 1
-            except:
+            except Exception:
                 nodes[face_nodes[j]] = 0
     sfNode = femmesh.addNode
     sfFace = femmesh.addFace
@@ -244,7 +244,7 @@ def mesh_2_femmesh(myFemMesh, singleFaces, faceCodeDict):
         try:
             if nodes[key] >= 0:
                 sfNode(mynode[0], mynode[1], mynode[2], key)
-        except:
+        except Exception:
             pass
 
     output_mesh = []

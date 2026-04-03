@@ -45,7 +45,7 @@ SCL_float_epsilon = 1e-7
 # ===================
 # 14.1 CONST_E is a REAL constant representing the mathematical value e, the base of the natural
 # logarithm function (ln).
-CONST_E = REAL(math.pi)
+CONST_E = REAL(math.e)
 
 # EXPRESS definition:
 # ===================
@@ -285,13 +285,16 @@ def FORMAT(N, F):
     if not isinstance(N, NUMBER):
         raise TypeError("FORMAT function takes a NUMBER parameter")
     if not isinstance(F, STRING):
-        raise TypeError("FORMAT function takes a NUMBER parameter")
+        raise TypeError("FORMAT function takes a STRING parameter")
     py_formatting = F.lower()
-    string_to_evaluate = "'%"
-    string_to_evaluate += "%s'" % py_formatting
-    string_to_evaluate += "%"
-    string_to_evaluate += "%s" % N
-    result = eval(string_to_evaluate).upper()
+    # Validate format string to prevent injection: only allow safe format chars
+    import re as _re
+    if not _re.match(r'^[+0-9eEfFgGiIsS.]*$', py_formatting):
+        return STRING(str(N))
+    try:
+        result = ('%' + py_formatting % N).upper()
+    except (TypeError, ValueError):
+        result = str(N).upper()
     return STRING(result)
 
 
@@ -561,7 +564,7 @@ def ODD(V):
 # Python note:
 # @TODO: implement the ROLESOF function
 def ROLESOF(V):
-    raise NotImplemented("Function ROLESOF not implemented")
+    raise NotImplementedError("Function ROLESOF not implemented")
 
 
 # EXPRESS definition:
@@ -669,7 +672,7 @@ def TYPEOF(V):
 # The usedin function returns each entity instance that uses a specified entity instance in a
 # specified role.
 def USEDIN(T, R):
-    raise NotImplemented("USEDIN function not yet implemented.")
+    raise NotImplementedError("USEDIN function not yet implemented.")
 
 
 # EXPRESS definition:
@@ -723,7 +726,7 @@ def VALUE(V):
 def VALUE_IN(C, V):
     if not isinstance(C, Aggregate):
         raise TypeError("VALUE_IN method takes an aggregate as first parameter")
-    raise NotImplemented("VALUE_IN function not yet implemented")
+    raise NotImplementedError("VALUE_IN function not yet implemented")
 
 
 # EXPRESS definition:

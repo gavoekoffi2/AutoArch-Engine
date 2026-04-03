@@ -531,7 +531,7 @@ class MaterialEditor:
         if pattern:
             try:
                 import DrawingPatterns
-            except:
+            except Exception:
                 print("DrawingPatterns not found")
             else:
                 pattern = DrawingPatterns.buildFileSwatch(pattern, size=96, png=True)

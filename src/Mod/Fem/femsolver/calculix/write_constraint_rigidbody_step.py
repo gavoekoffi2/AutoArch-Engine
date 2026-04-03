@@ -94,7 +94,7 @@ def write_constraint(f, femobj, rb_obj, ccxwriter):
     # proj_axis could be null
     try:
         constraint = FreeCAD.Vector(proj_axis).normalize() * rot.Angle
-    except:
+    except Exception:
         constraint = FreeCAD.Vector(0, 0, 0)
 
     for i in range(3):

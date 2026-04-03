@@ -324,7 +324,7 @@ class CommandCamoticsSimulate:
         try:
             job = FreeCADGui.Selection.getSelectionEx()[0].Object
             return isinstance(job.Proxy, Path.Main.Job.ObjectJob)
-        except:
+        except Exception:
             return False
 
     def Activated(self):

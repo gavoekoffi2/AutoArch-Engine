@@ -86,7 +86,7 @@ class ConstraintSelfWeight(base_fempythonobject.BaseFemPythonObject):
 
             return
 
-        except:
+        except Exception:
             return
 
     def execute(self, obj):
