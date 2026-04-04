@@ -162,7 +162,7 @@ class AnnotationStyleEditor(gui_base.GuiCommandSimplest):
             try:
                 strvalue = json.dumps(value)
             except Exception:
-                print("debug: unable to serialize this:", value)
+                App.Console.PrintLog("Draft: unable to serialize style value: {}\n".format(value))
             if "Draft_Style_" + key in meta and meta["Draft_Style_" + key] != strvalue:
                 changedstyles.append(key)
             meta["Draft_Style_" + key] = strvalue
@@ -363,7 +363,7 @@ class AnnotationStyleEditor(gui_base.GuiCommandSimplest):
         elif isinstance(style, str) and style in self.styles:
             style = self.styles[style]
         else:
-            print("debug: unable to fill dialog from style", style)
+            App.Console.PrintLog("Draft: unable to fill dialog from style: {}\n".format(style))
 
         for key, value in style.items():
             control = getattr(self.form, key)

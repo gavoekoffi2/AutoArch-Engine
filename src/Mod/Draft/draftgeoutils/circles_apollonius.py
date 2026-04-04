@@ -75,7 +75,7 @@ def outerSoddyCircle(circle1, circle2, circle3):
         or geomType(circle2) != "Circle"
         or geomType(circle3) != "Circle"
     ):
-        print("debug: outerSoddyCircle bad parameters! Must be circles.")
+        App.Console.PrintWarning("Draft: outerSoddyCircle bad parameters! Must be circles.\n")
         return None
 
     A = circle1.Curve.Center
@@ -130,7 +130,7 @@ def innerSoddyCircle(circle1, circle2, circle3):
         and geomType(circle2) != "Circle"
         and geomType(circle3) != "Circle"
     ):
-        print("debug: innerSoddyCircle bad parameters! Must be circles.")
+        App.Console.PrintWarning("Draft: innerSoddyCircle bad parameters! Must be circles.\n")
         return None
 
     A = circle1.Curve.Center
@@ -197,7 +197,7 @@ def circleFrom3CircleTangents(circle1, circle2, circle3):
         and geomType(circle2) != "Circle"
         and geomType(circle3) == "Circle"
     ):
-        print("debug: circleFrom3CircleTangents bad input! Must be circles")
+        App.Console.PrintWarning("Draft: circleFrom3CircleTangents bad input! Must be circles.\n")
         return None
 
     int12 = findIntersection(circle1, circle2, True, True)

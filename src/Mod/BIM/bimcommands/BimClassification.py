@@ -181,7 +181,7 @@ class BIM_Classification:
         # select current classification
         if current:
             system, classification = current.split(" ", 1)
-            print("searching for", classification)
+            FreeCAD.Console.PrintLog("BIM: searching for classification: {}\n".format(classification))
             if system in self.Classes:
                 self.form.comboSystem.setCurrentText(system)
                 res = self.form.treeClass.findItems(

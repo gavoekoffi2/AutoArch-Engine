@@ -515,7 +515,7 @@ def filter_out(objs):
             else:
                 FreeCAD.Console.PrintLog("IFC: Filtering out {}\n".format(obj.Label))
         else:
-            print("DEBUG: Filtering out", obj.Label)
+            FreeCAD.Console.PrintLog("IFC: Filtering out {}\n".format(obj.Label))
     return nobjs
 
 

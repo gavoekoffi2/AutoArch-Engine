@@ -152,58 +152,44 @@ class BIM_Diff:
                                             # same material names
                                             obj.ViewObject.hide()
                                         else:
-                                            print(
-                                                "Object",
-                                                mainobj.Label,
-                                                "material has changed",
+                                            FreeCAD.Console.PrintMessage(
+                                                "BIM Diff: Object {} material has changed\n".format(mainobj.Label)
                                             )
                                             obj.ViewObject.hide()  # we hide these objects since the shape hasn't changed but we keep their shapes
                                             matchangedghost.append(obj.Shape)
                                             matchanged.append(obj)
                                     else:
-                                        print(
-                                            "Object",
-                                            mainobj.Label,
-                                            "shape bound box has changed",
+                                        FreeCAD.Console.PrintMessage(
+                                            "BIM Diff: Object {} shape bound box has changed\n".format(mainobj.Label)
                                         )
                                         toselect.append(obj)
                                         modified.append(obj)
                                 else:
-                                    print(
-                                        "Object",
-                                        mainobj.Label,
-                                        "position has moved by",
-                                        l,
-                                        "mm",
+                                    FreeCAD.Console.PrintMessage(
+                                        "BIM Diff: Object {} position has moved by {} mm\n".format(mainobj.Label, l)
                                     )
                                     toselect.append(obj)
                                     moved.append(obj)
                             else:
-                                print(
-                                    "Object",
-                                    mainobj.Label,
-                                    "shape has changed by",
-                                    v,
-                                    "mm^3",
+                                FreeCAD.Console.PrintMessage(
+                                    "BIM Diff: Object {} shape has changed by {} mm^3\n".format(mainobj.Label, v)
                                 )
                                 toselect.append(obj)
                                 modified.append(obj)
                         else:
-                            print(
-                                "Object",
-                                mainobj.Label,
-                                "one of the objects has no shape",
+                            FreeCAD.Console.PrintMessage(
+                                "BIM Diff: Object {} has no shape\n".format(mainobj.Label)
                             )
                             toselect.append(obj)
                     else:
-                        print("Object", obj.Label, "does not exist yet in main document")
+                        FreeCAD.Console.PrintMessage("BIM Diff: Object {} does not exist yet in main document\n".format(obj.Label))
                         toselect.append(obj)
                         additions.append(obj)
 
                 for id, obj in activedocids.items():
                     if not id in otherdocids:
                         if obj.isDerivedFrom("Part::Feature"):  # don't count building parts
-                            print("Object", obj.Label, "does not exist anymore in new document")
+                            FreeCAD.Console.PrintMessage("BIM Diff: Object {} does not exist anymore in new document\n".format(obj.Label))
                             subtractions.append(obj)
 
                 # try to find our objects without ID
@@ -231,10 +217,8 @@ class BIM_Diff:
                                         newids[obj.Name] = id
                                         break
                     else:
-                        print(
-                            "Object",
-                            obj.Label,
-                            "has no ID and was not found in the new document",
+                        FreeCAD.Console.PrintMessage(
+                            "BIM Diff: Object {} has no ID and was not found in the new document\n".format(obj.Label)
                         )
                         subtractions.append(obj)
 
@@ -247,7 +231,7 @@ class BIM_Diff:
                 for obj in otherdoc.Objects:
                     if Draft.getType(obj) == "Material":
                         if not obj.Label in matnames:
-                            print("Material", obj.Label, "does not exist in main document")
+                            FreeCAD.Console.PrintMessage("BIM Diff: Material {} does not exist in main document\n".format(obj.Label))
                             toselect.append(obj)
                             newmats[obj.Label] = obj
 
@@ -333,13 +317,8 @@ class BIM_Diff:
                                     mainmatlabel = "None"
                                 if mat.Label in matnames:
                                     # the new material already exists, just change it
-                                    print(
-                                        "Changing material of",
-                                        mainobj.Label,
-                                        "from",
-                                        mainmatlabel,
-                                        "to",
-                                        mat.Label,
+                                    FreeCAD.Console.PrintMessage(
+                                        "BIM Diff: Changing material of {} from {} to {}\n".format(mainobj.Label, mainmatlabel, mat.Label)
                                     )
                                     mainobj.Material = matnames[mat.Label]
                                 else:
@@ -353,13 +332,8 @@ class BIM_Diff:
                                     ArchMaterial._ArchMaterial(newmat)
                                     ArchMaterial._ViewProviderArchMaterial(newmat.ViewObject)
                                     newmat.Material = mat.Material
-                                    print(
-                                        "Changing material of",
-                                        mainobj.Label,
-                                        "from",
-                                        mainmatlabel,
-                                        "to",
-                                        newmat.Label,
+                                    FreeCAD.Console.PrintMessage(
+                                        "BIM Diff: Changing material of {} from {} to {}\n".format(mainobj.Label, mainmatlabel, newmat.Label)
                                     )
                                     mainobj.Material = newmat
                                     matnames[newmat.Label] = newmat
@@ -381,7 +355,7 @@ class BIM_Diff:
                         for name, id in newids.items():
                             obj = activedoc.getObject(name)
                             if obj:
-                                print("Transferring new ID to object", obj.Label)
+                                FreeCAD.Console.PrintMessage("BIM Diff: Transferring new ID to object {}\n".format(obj.Label))
                                 a = obj.IfcData
                                 a["IfcUID"] = id
                                 obj.IfcData = a
@@ -400,7 +374,7 @@ class BIM_Diff:
                         for name, label in renamed.items():
                             obj = activedoc.getObject(name)
                             if obj:
-                                print("Renaming object", obj.Label, "to", label)
+                                FreeCAD.Console.PrintMessage("BIM Diff: Renaming object {} to {}\n".format(obj.Label, label))
                                 obj.Label = label
 
                 if propertieschanged:
@@ -416,7 +390,7 @@ class BIM_Diff:
                     if reply == QtGui.QMessageBox.Yes:
                         for id, prop in propertieschanged.items():
                             obj = activedocids[id]
-                            print("Updating properties of ", obj.Label)
+                            FreeCAD.Console.PrintMessage("BIM Diff: Updating properties of {}\n".format(obj.Label))
                             obj.IfcProperties = prop
 
                 if moved:
@@ -439,7 +413,7 @@ class BIM_Diff:
                             delta = otherobj.Shape.BoundBox.Center.sub(
                                 mainobj.Shape.BoundBox.Center
                             )
-                            print("Moving object ", mainobj.Label)
+                            FreeCAD.Console.PrintMessage("BIM Diff: Moving object {}\n".format(mainobj.Label))
                             Draft.move(mainobj, delta)
                     reply = QtGui.QMessageBox.question(
                         None,
@@ -459,7 +433,7 @@ class BIM_Diff:
                                 otherobj.ViewObject.ShapeColor = (1.0, 1.0, 0.0)
                                 otherobj.ViewObject.Transparency = 60
                             except AttributeError:
-                                print(otherobj.Label, "cannot be colorized")
+                                FreeCAD.Console.PrintLog("BIM Diff: {} cannot be colorized\n".format(otherobj.Label))
 
                 if modified:
                     reply = QtGui.QMessageBox.question(
@@ -480,7 +454,7 @@ class BIM_Diff:
                                 otherobj.ViewObject.ShapeColor = (1.0, 0.5, 0.0)
                                 otherobj.ViewObject.Transparency = 60
                             except AttributeError:
-                                print(otherobj.Label, "cannot be colorized")
+                                FreeCAD.Console.PrintLog("BIM Diff: {} cannot be colorized\n".format(otherobj.Label))
 
                 if subtractions:
                     reply = QtGui.QMessageBox.question(
@@ -537,7 +511,7 @@ class BIM_Diff:
                                 otherobj.ViewObject.ShapeColor = (0.0, 1.0, 0.0)
                                 otherobj.ViewObject.Transparency = 60
                             except AttributeError:
-                                print(otherobj.Label, "cannot be colorized")
+                                FreeCAD.Console.PrintLog("BIM Diff: {} cannot be colorized\n".format(otherobj.Label))
 
         else:
             QtGui.QMessageBox.information(

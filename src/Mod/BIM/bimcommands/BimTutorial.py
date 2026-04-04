@@ -170,7 +170,7 @@ class BIM_Tutorial:
                     try:
                         name = os.path.splitext(os.path.basename(path))[0]
                     except:
-                        print("unparsable image path:", path)
+                        FreeCAD.Console.PrintWarning("BIM Tutorial: unparsable image path: {}\n".format(path))
                     else:
                         storename = os.path.join(store, name)
                         if not os.path.exists(storename):
@@ -273,7 +273,7 @@ class BIM_Tutorial:
                     try:
                         result = eval(self.test1[self.step])
                     except:
-                        print("BIM Tutorial: unable to eval: " + self.test1[self.step])
+                        FreeCAD.Console.PrintLog("BIM Tutorial: unable to eval: {}\n".format(self.test1[self.step]))
                         result = False
                         self.done1 = True
                     if result:
@@ -286,7 +286,7 @@ class BIM_Tutorial:
                     try:
                         result = eval(self.test2[self.step])
                     except:
-                        print("BIM Tutorial: unable to eval: " + self.test2[self.step])
+                        FreeCAD.Console.PrintLog("BIM Tutorial: unable to eval: {}\n".format(self.test2[self.step]))
                         result = False
                         self.done2 = True
                     if result:

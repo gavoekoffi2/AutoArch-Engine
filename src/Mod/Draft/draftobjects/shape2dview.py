@@ -323,7 +323,11 @@ class Shape2DView(DraftObject):
                                 try:
                                     c = sh.cut(cutv)
                                 except ValueError:
-                                    print("DEBUG: Error subtracting shapes in", obj.Label)
+                                    App.Console.PrintWarning(
+                                        "Draft: Error subtracting shapes in {}\n".format(
+                                            obj.Label
+                                        )
+                                    )
                                     cuts.extend(self._get_shapes(sh, onlysolids))
                                 else:
                                     cuts.extend(self._get_shapes(c, onlysolids))

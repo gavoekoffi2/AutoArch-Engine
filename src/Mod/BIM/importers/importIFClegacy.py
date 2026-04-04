@@ -1268,7 +1268,7 @@ def export(exportList, filename):
                 elif gdata[0] == "composite":
                     representation = ifc.addExtrudedCompositeCurve(gdata[1], gdata[2], color=color)
                 else:
-                    print("debug: unknown extrusion type")
+                    FreeCAD.Console.PrintWarning("BIM: IFC legacy import: unknown extrusion type\n")
             elif fdata:
                 representation = [ifc.addFacetedBrep(f, color=color) for f in fdata]
 

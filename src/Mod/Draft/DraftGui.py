@@ -1243,7 +1243,9 @@ class DraftToolBar:
                 try:
                     rad = self.radius
                 except (ValueError, AttributeError):
-                    print("debug: DraftGui.validatePoint: AttributeError")
+                    FreeCAD.Console.PrintLog(
+                        "Draft: DraftGui.validatePoint: radius AttributeError\n"
+                    )
                 else:
                     self.sourceCmd.numericRadius(rad)
             elif self.labelx.isVisible():
@@ -1252,7 +1254,9 @@ class DraftToolBar:
                     numy = self.y
                     numz = self.z
                 except (ValueError, AttributeError):
-                    print("debug: DraftGui.validatePoint: AttributeError")
+                    FreeCAD.Console.PrintLog(
+                        "Draft: DraftGui.validatePoint: coordinates AttributeError\n"
+                    )
                 else:
                     delta = FreeCAD.Vector(numx, numy, numz)
                     if self.pointcallback:

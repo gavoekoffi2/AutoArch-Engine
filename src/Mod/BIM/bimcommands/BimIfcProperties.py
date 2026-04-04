@@ -391,7 +391,7 @@ class BIM_IfcProperties:
                         FreeCAD.ActiveDocument.openTransaction("Change properties")
                         changed = True
                     if hasattr(obj, "IfcClass"):
-                        print("props:", props)
+                        FreeCAD.Console.PrintLog("BIM: IFC props to apply: {}\n".format(props))
                         for key, value in values[1].items():
                             if ";;" in key and ";;" in value:
                                 pname, pset = key.split(";;")
@@ -509,7 +509,7 @@ class BIM_IfcProperties:
                     ptype = value[0]
                     pvalue = value[1]
                 else:
-                    print("Error: Unparsable property:", value)
+                    FreeCAD.Console.PrintError("BIM: Unparsable property: {}\n".format(value))
                     return
                 for other in allprops[1:]:
                     if key in other.keys():
@@ -527,7 +527,9 @@ class BIM_IfcProperties:
                             otherptype = othervalue[0]
                             otherpvalue = othervalue[1]
                         else:
-                            print("Error: Unparsable property:", othervalue)
+                            FreeCAD.Console.PrintError(
+                                "BIM: Unparsable property: {}\n".format(othervalue)
+                            )
                             return
                         if otherpset != pset:
                             iscommon = False

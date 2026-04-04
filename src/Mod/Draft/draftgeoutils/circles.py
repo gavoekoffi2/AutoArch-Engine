@@ -347,7 +347,7 @@ def findHomotheticCenterOfCircles(circle1, circle2):
     http://mathworld.wolfram.com/HomotheticCenter.html
     """
     if geomType(circle1) == "Circle" and geomType(circle2) == "Circle":
-        print("debug: findHomotheticCenterOfCircles bad parameters!")
+        App.Console.PrintWarning("Draft: findHomotheticCenterOfCircles bad parameters!\n")
         return None
 
     if DraftVecUtils.equals(circle1.Curve.Center, circle2.Curve.Center):
@@ -410,7 +410,7 @@ def findRadicalAxis(circle1, circle2):
     findRadicalCenter
     """
     if (geomType(circle1) == "Circle") and (geomType(circle2) == "Circle"):
-        print("debug: findRadicalAxis bad parameters! Must be circles.")
+        App.Console.PrintWarning("Draft: findRadicalAxis bad parameters! Must be circles.\n")
         return None
 
     if DraftVecUtils.equals(circle1.Curve.Center, circle2.Curve.Center):
@@ -475,7 +475,7 @@ def findRadicalCenter(circle1, circle2, circle3):
         or geomType(circle2) != "Circle"
         or geomType(circle3) != "Circle"
     ):
-        print("debug: findRadicalCenter bad parameters! Must be circles.")
+        App.Console.PrintWarning("Draft: findRadicalCenter bad parameters! Must be circles.\n")
         return None
 
     radicalAxis12 = findRadicalAxis(circle1, circle2)

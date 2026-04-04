@@ -105,7 +105,7 @@ class Arch_Stairs:
 
         FreeCAD.ActiveDocument.commitTransaction()
         FreeCAD.ActiveDocument.recompute()
-        print(" ActiveDocument.recompute, done ")
+        FreeCAD.Console.PrintLog("BIM: ActiveDocument.recompute done\n")
 
 
 FreeCADGui.addCommand("Arch_Stairs", Arch_Stairs())

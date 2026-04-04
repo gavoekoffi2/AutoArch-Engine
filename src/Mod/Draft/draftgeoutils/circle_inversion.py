@@ -53,7 +53,7 @@ def pointInversion(circle, point):
     of the circle.
     """
     if geomType(circle) != "Circle" or isinstance(point, App.Vector):
-        print("debug: pointInversion bad parameters!")
+        App.Console.PrintWarning("Draft: pointInversion bad parameters!\n")
         return None
 
     cen = circle.Curve.Center
@@ -83,7 +83,7 @@ def polarInversion(circle, edge):
     http://mathworld.wolfram.com/InversionPole.html
     """
     if geomType(circle) != "Circle" or geomType(edge) != "Line":
-        print("debug: circleInversionPole bad parameters! Must be a circle.")
+        App.Console.PrintWarning("Draft: circleInversionPole bad parameters! Must be a circle.\n")
         return None
 
     nearest = circle.Curve.Center.add(findDistance(circle.Curve.Center, edge, False))
@@ -101,7 +101,7 @@ def circleInversion(circle, circle2):
     Returns the new circle created from the inverted center of circle2.
     """
     if geomType(circle) != "Circle" or geomType(circle2) != "Circle":
-        print("debug: circleInversion bad parameters! Must be circles.")
+        App.Console.PrintWarning("Draft: circleInversion bad parameters! Must be circles.\n")
         return None
 
     cen1 = circle.Curve.Center

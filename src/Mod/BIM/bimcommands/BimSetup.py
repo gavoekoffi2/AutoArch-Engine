@@ -637,8 +637,8 @@ class BIM_Setup:
                     QtGui.QMessageBox.No,
                 )
             if reply == QtGui.QMessageBox.Yes:
-                print(
-                    "Loading list of latest IfcOpenBot builds from https://github.com/IfcOpenBot/IfcOpenShell..."
+                FreeCAD.Console.PrintMessage(
+                    "BIM: Loading list of latest IfcOpenBot builds from GitHub...\n"
                 )
                 url1 = "https://api.github.com/repos/IfcOpenBot/IfcOpenShell/comments?per_page=100"
                 u = request.urlopen(url1)
@@ -662,10 +662,10 @@ class BIM_Setup:
                         plat += "64"
                     else:
                         plat += "32"
-                    print("Looking for", plat, pyv)
+                    FreeCAD.Console.PrintMessage("BIM: Looking for IfcOpenShell: {} {}\n".format(plat, pyv))
                     for link in links:
                         if ("ifcopenshell-" + pyv in link) and (plat in link):
-                            print("Downloading " + link + "...")
+                            FreeCAD.Console.PrintMessage("BIM: Downloading {}...\n".format(link))
                             p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
                             fp = p.GetString(
                                 "MacroPath",
@@ -687,7 +687,7 @@ class BIM_Setup:
                                 zfile.extractall(fp)
                                 u.close()
                                 zfile.close()
-                                print("Successfully installed IfcOpenShell to", fp)
+                                FreeCAD.Console.PrintMessage("BIM: Successfully installed IfcOpenShell to {}\n".format(fp))
                                 break
                     else:
                         FreeCAD.Console.PrintWarning(

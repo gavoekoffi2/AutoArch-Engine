@@ -166,8 +166,10 @@ class PathGeometryGenerator:
         if self.shape is None:
             return False
 
-        cmd = "self._" + self.pattern + "()"
-        exec(cmd)
+        pattern_method = getattr(self, "_" + self.pattern, None)
+        if pattern_method is None:
+            return False
+        pattern_method()
 
         if self.obj.CutPatternReversed is True:
             self.rawGeoList.reverse()
