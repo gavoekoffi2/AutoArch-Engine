@@ -52,7 +52,6 @@ Many other OpenSBP commands not handled
 import FreeCAD
 import Path
 import os
-import Path
 from builtins import open as pyopen
 
 AXIS = (

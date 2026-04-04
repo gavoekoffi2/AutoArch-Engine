@@ -21,6 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
+import ast
 import FreeCAD
 import Path
 import glob
@@ -418,7 +419,13 @@ def postProcessorBlacklist():
     blacklist = pref.GetString(PostProcessorBlacklist, "")
     if not blacklist:
         return []
-    return eval(blacklist)
+    try:
+        result = ast.literal_eval(blacklist)
+        if isinstance(result, list):
+            return result
+        return []
+    except (ValueError, SyntaxError):
+        return []
 
 
 def setPostProcessorDefaults(processor, args, blacklist):
