@@ -418,11 +418,13 @@ def get_geom_iterator(ifcfile, elements, brep_mode):
                 settings.set("CONTEXT_IDENTIFIERS", [str(s) for s in body_contexts])
         else:
             # We print a debug message but we continue
-            print("DEBUG: ifc_tools.get_geom_iterator: Iterator could not be set up correctly")
+            FreeCAD.Console.PrintWarning(
+                "IFC: geometry iterator could not be set up correctly\n"
+            )
     cores = multiprocessing.cpu_count()
     iterator = ifcopenshell.geom.iterator(settings, ifcfile, cores, include=elements)
     if not iterator.initialize():
-        print("DEBUG: ifc_tools.get_geom_iterator: Invalid iterator")
+        FreeCAD.Console.PrintWarning("IFC: geometry iterator is invalid\n")
         return None
     return iterator
 

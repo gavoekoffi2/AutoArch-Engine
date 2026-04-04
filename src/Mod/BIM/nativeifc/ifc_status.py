@@ -131,7 +131,7 @@ def on_add_property():
         return
     pname = form.field_name.text()
     if pname in obj.PropertiesList:
-        print("DEBUG: property already exists", pname)
+        FreeCAD.Console.PrintLog("IFC: property '{}' already exists\n".format(pname))
         return
     pset = form.field_pset.currentText()
     if not pset:
@@ -246,7 +246,9 @@ def on_toggle_lock(checked=None, noconvert=False, setchecked=False):
 def on_open():
     """What happens when opening an existing document"""
 
-    pass  # TODO implement
+    # When a document is opened, synchronize the lock button and menu state
+    # with the IFC lock state of the newly opened document.
+    on_activate()
 
 
 def on_activate():
@@ -273,7 +275,18 @@ def on_activate():
 def on_new():
     """What happens when creating a new document"""
 
-    pass  # TODO implement
+    # A new document is never an IFC document, so ensure the lock button
+    # and the File menu reflect the unlocked state.
+    set_menu(False)
+    if not FreeCAD.GuiUp:
+        return
+    from PySide import QtGui  # lazy import
+
+    mw = FreeCADGui.getMainWindow()
+    statuswidget = mw.findChild(QtGui.QToolBar, "BIMStatusWidget")
+    if hasattr(statuswidget, "lock_button"):
+        statuswidget.lock_button.setChecked(False)
+    on_toggle_lock(False, noconvert=True)
 
 
 def set_menu(locked=False):
@@ -489,7 +502,7 @@ def filter_out(objs):
                 # only append groups that contain exportable objects
                 nobjs.append(obj)
             else:
-                print("DEBUG: Filtering out", obj.Label)
+                FreeCAD.Console.PrintLog("IFC: Filtering out {}\n".format(obj.Label))
         elif obj.isDerivedFrom("App::Feature"):
             if Draft.get_type(obj) in (
                 "Dimension",
@@ -500,7 +513,7 @@ def filter_out(objs):
             ):
                 nobjs.append(obj)
             else:
-                print("DEBUG: Filtering out", obj.Label)
+                FreeCAD.Console.PrintLog("IFC: Filtering out {}\n".format(obj.Label))
         else:
             print("DEBUG: Filtering out", obj.Label)
     return nobjs

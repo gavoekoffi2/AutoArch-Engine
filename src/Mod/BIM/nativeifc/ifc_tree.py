@@ -114,14 +114,16 @@ def show_geometry_tree(element):
             elt = ifcfile[int(prop[0])]
             attrib = prop[1]
             if attrib not in dir(elt):
-                print("DEBUG: Unknown attribute:", attrib)
+                FreeCAD.Console.PrintLog("IFC: Unknown attribute: {}\n".format(attrib))
                 continue
             value = prop[3]
             if isfloat(getattr(elt, attrib)):
                 try:
                     value = float(value)
                 except:
-                    print("DEBUG: wrong value for", attrib, ":", value)
+                    FreeCAD.Console.PrintLog(
+                        "IFC: wrong value for {}: {}\n".format(attrib, value)
+                    )
                     continue
             ifc_tools.set_attribute(ifcfile, elt, attrib, value)
             modified = True
@@ -139,7 +141,6 @@ def isfloat(s):
         float(s)
     except ValueError:
         return False
-    print(s)
     return True
 
 

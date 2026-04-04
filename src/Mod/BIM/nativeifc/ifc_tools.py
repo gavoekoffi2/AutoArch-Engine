@@ -1131,7 +1131,10 @@ def set_placement(obj):
 
     ifcfile = get_ifcfile(obj)
     if not ifcfile:
-        print("DEBUG: No ifc file for object", obj.Label, "Aborting")
+        FreeCAD.Console.PrintLog(
+            "IFC: No ifc file for object {}, aborting placement update\n".format(obj.Label)
+        )
+        return False
     if obj.Class in ["IfcProject", "IfcProjectLibrary"]:
         return
     element = get_ifc_element(obj)
@@ -1140,7 +1143,9 @@ def set_placement(obj):
         if element.is_a("IfcGridAxis"):
             return set_axis_points(obj, element, ifcfile)
         # other cases of objects without ObjectPlacement?
-        print("DEBUG: object without ObjectPlacement", element)
+        FreeCAD.Console.PrintLog(
+            "IFC: object without ObjectPlacement: {}\n".format(element)
+        )
         return False
     placement = FreeCAD.Placement(obj.Placement)
     placement.Base = FreeCAD.Vector(placement.Base).multiply(get_scale(ifcfile))
@@ -1184,7 +1189,9 @@ def set_axis_points(obj, element, ifcfile):
             attributes={"Coordinates": tuple(p2)},
         )
         return True
-    print("DEBUG: unhandled axis type:", element.AxisCurve.is_a())
+    FreeCAD.Console.PrintWarning(
+        "IFC: unhandled axis type: {}\n".format(element.AxisCurve.is_a())
+    )
     return False
 
 
@@ -1543,8 +1550,8 @@ def get_elem_attribs(ifcentity):
             value = getattr(ifcentity, attr)
         except Exception as e:
             value = "Error: {}".format(e)
-            print(
-                "DEBUG: The entity #{} has a problem on attribute {}: {}".format(
+            FreeCAD.Console.PrintLog(
+                "IFC: The entity #{} has a problem on attribute {}: {}\n".format(
                     ifcentity.id(), attr, e
                 )
             )

@@ -164,7 +164,11 @@ def show_psets(obj):
                     ):
                         value = [value]
                 else:
-                    print(pname, gname, obj.PropertiesList)
+                    FreeCAD.Console.PrintLog(
+                        "IFC: adding property {} in group {} to {}\n".format(
+                            pname, gname, obj.Label
+                        )
+                    )
                     obj.addProperty(ftype, pname, gname, ttip, locked=True)
             if pname in obj.PropertiesList:
                 setattr(obj, pname, value)
@@ -257,7 +261,9 @@ def edit_pset(obj, prop, value=None, force=False, ifcfile=None, element=None):
         elif value.Unit.Type == "Length":
             value = value.getValueAs("mm").Value * ifc_tools.get_scale(ifcfile)
         else:
-            print("DEBUG: unhandled quantity type:", value, value.Unit.Type)
+            FreeCAD.Console.PrintLog(
+                "IFC: unhandled quantity type: {} ({})\n".format(value, value.Unit.Type)
+            )
             return False
     if value == value_exist:
         return False

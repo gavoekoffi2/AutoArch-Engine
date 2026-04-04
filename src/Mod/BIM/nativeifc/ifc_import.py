@@ -77,7 +77,7 @@ def insert(
 
     strategy, shapemode, switchwb = get_options(strategy, shapemode, switchwb, silent)
     if strategy is None:
-        print("Aborted.")
+        FreeCAD.Console.PrintMessage("IFC: Import aborted.\n")
         return
     stime = time.time()
     try:
@@ -116,7 +116,9 @@ def insert(
         FreeCADGui.doCommand(pstr)
     endtime = "%02d:%02d" % (divmod(round(time.time() - stime, 1), 60))
     fsize = round(os.path.getsize(filename) / 1048576, 2)
-    print("Imported", os.path.basename(filename), "(", fsize, "Mb ) in", endtime)
+    FreeCAD.Console.PrintMessage(
+        "IFC: Imported {} ({} Mb) in {}\n".format(os.path.basename(filename), fsize, endtime)
+    )
     if FreeCAD.GuiUp and switchwb:
         FreeCADGui.activateWorkbench("BIMWorkbench")
     return document

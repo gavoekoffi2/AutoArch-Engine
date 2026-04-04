@@ -285,7 +285,9 @@ def get_dimension(annotation):
                             res.append(shape[0].Vertexes[1].Point)
                         return res
                 else:
-                    print(annotation, "NOT A DIMENSION")
+                    FreeCAD.Console.PrintLog(
+                        "IFC: annotation {} is not a dimension\n".format(annotation)
+                    )
     return None
 
 

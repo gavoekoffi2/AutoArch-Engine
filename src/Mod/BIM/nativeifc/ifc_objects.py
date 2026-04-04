@@ -253,7 +253,9 @@ class ifc_object:
                                     value[-1] = ifc_export.get_scaled_point(obj.End, ifcfile, is2d)
                                 ifc_tools.set_attribute(ifcfile, points, "CoordList", value)
                             else:
-                                print("DEBUG: unknown dimension curve type:", sub)
+                                FreeCAD.Console.PrintLog(
+                                    "IFC: unknown dimension curve type: {}\n".format(sub)
+                                )
             elif attribute in ["DisplayLength", "DisplayHeight", "Depth"]:
                 l = w = h = 1000.0
                 if obj.ViewObject:
@@ -339,11 +341,10 @@ class ifc_object:
             newlist = []
             for child in obj.Group:
                 if not getattr(child, "StepId", None) or ifc_tools.get_ifcfile(child) != ifcfile:
-                    print(
-                        "DEBUG: Not an IFC object. Removing",
-                        child.Label,
-                        "from layer",
-                        obj.Label,
+                    FreeCAD.Console.PrintLog(
+                        "IFC: Not an IFC object. Removing {} from layer {}\n".format(
+                            child.Label, obj.Label
+                        )
                     )
                 else:
                     # print("DEBUG: adding", child.Label, "to layer", obj.Label)
@@ -402,7 +403,7 @@ class ifc_object:
             plane.Placement = obj.Placement
             return objs, plane
         else:
-            print("DEBUG: Section plane returned no objects")
+            FreeCAD.Console.PrintLog("IFC: Section plane returned no objects\n")
             return [], None
 
     def edit_classification(self, obj):
