@@ -2,11 +2,12 @@ import FreeCADGui
 
 class AutoArchWorkbench(Workbench):
     MenuText = "AutoArch Engine"
-    ToolTip = "Outils d'automatisation avancés pour Architectes"
+    ToolTip = "Outils d'automatisation pour Architectes"
     
     def Initialize(self):
         import AutoArchCommands
-        self.appendToolbar("AutoArch Automations", ["AutoArch_FastWalls", "AutoArch_Estimate"])
-        self.appendMenu("AutoArch", ["AutoArch_FastWalls", "AutoArch_Estimate"])
+        cmds = ["AutoArch_FastWalls", "AutoArch_AutoRoof", "AutoArch_AutoPlan", "AutoArch_Estimate"]
+        self.appendToolbar("AutoArch MVP", cmds)
+        self.appendMenu("AutoArch", cmds)
 
 FreeCADGui.addWorkbench(AutoArchWorkbench())
