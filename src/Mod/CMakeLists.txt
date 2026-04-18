@@ -10,6 +10,10 @@ if(BUILD_BIM)
   add_subdirectory(BIM)
 endif(BUILD_BIM)
 
+if(BUILD_ARXIO_AI)
+  add_subdirectory(ArxioAI)
+endif(BUILD_ARXIO_AI)
+
 if(BUILD_ASSEMBLY)
   add_subdirectory(Assembly)
 endif(BUILD_ASSEMBLY)

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g stroke="#0b2a52" stroke-width="1" fill="#c87a3e">
+    <rect x="8" y="44" width="12" height="6"/>
+    <rect x="20" y="44" width="12" height="6"/>
+    <rect x="32" y="44" width="12" height="6"/>
+    <rect x="44" y="44" width="12" height="6"/>
+    <rect x="14" y="38" width="12" height="6"/>
+    <rect x="26" y="38" width="12" height="6"/>
+    <rect x="38" y="38" width="12" height="6"/>
+    <rect x="8" y="32" width="12" height="6"/>
+    <rect x="20" y="32" width="12" height="6"/>
+    <rect x="32" y="32" width="12" height="6"/>
+    <rect x="44" y="32" width="12" height="6"/>
+    <rect x="14" y="26" width="12" height="6"/>
+    <rect x="26" y="26" width="12" height="6"/>
+    <rect x="38" y="26" width="12" height="6"/>
+  </g>
+  <polygon points="48,8 58,8 58,22 52,22 56,16 48,16" fill="#ffcc33" stroke="#0b2a52" stroke-width="1"/>
+</svg>
