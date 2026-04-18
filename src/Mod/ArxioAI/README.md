@@ -49,9 +49,14 @@ Toutes activées par défaut dans un build FreeCAD standard.
 ## Dépendances Python
 
 Aucune. Seule la bibliothèque standard est utilisée (`urllib`, `json`,
-`datetime`, `math`…). Les commandes IA fonctionnent avec toute clé
-Anthropic, OpenAI, ou endpoint compatible OpenAI (Ollama, Together,
-Groq, Azure…).
+`datetime`, `math`…). Les commandes IA fonctionnent avec :
+
+- **Anthropic** (`claude-sonnet-4-5` par défaut).
+- **OpenAI** (`gpt-4o-mini`, `gpt-4o`).
+- **GitHub Models** (quota gratuit, PAT scope `models:read` —
+  modèles `openai/gpt-4o-mini`, `meta/Llama-3.3-70B-Instruct`, etc.).
+- Tout endpoint **OpenAI-compatible** : Ollama local, Together, Groq,
+  Azure OpenAI, vLLM…
 
 ## Préférences
 

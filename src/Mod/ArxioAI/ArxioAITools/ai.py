@@ -5,16 +5,19 @@ Zero third-party dependencies — only `urllib` from the Python stdlib
 so no pip install is required for users.
 
 Supported providers:
-    - "anthropic" (default) — Messages API
-    - "openai"              — Chat Completions API (and compatible
-                              endpoints: Azure, groq, together, Ollama
-                              via OpenAI shim, etc.)
+    - "anthropic" (default) — Messages API.
+    - "openai"              — Chat Completions API (and any compatible
+                              endpoint: Azure, Groq, Together, Ollama
+                              local, etc.).
+    - "github"              — GitHub Models (OpenAI-compatible, auth
+                              via a GitHub PAT scoped to `models:read`).
 
 The API key is never stored in source. It is read from, in order:
 
     1. The FreeCAD parameter store
        `User parameter:BaseApp/Preferences/Mod/ArxioAI` → `AIAPIKey`
-    2. Environment variables `ANTHROPIC_API_KEY` / `OPENAI_API_KEY`
+    2. Environment variables — `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`,
+       or `GITHUB_TOKEN` (depending on provider).
 """
 
 import json
@@ -56,9 +59,17 @@ def get_config():
     model = p.GetString("AIModel", DEFAULTS["AIModel"])
     api_key = p.GetString("AIAPIKey", "")
     if not api_key:
-        api_key = os.environ.get("ANTHROPIC_API_KEY", "") or os.environ.get(
-            "OPENAI_API_KEY", ""
-        )
+        provider_norm = (provider or "").lower()
+        if provider_norm == "anthropic":
+            api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+        elif provider_norm == "github":
+            api_key = os.environ.get("GITHUB_TOKEN", "") or os.environ.get(
+                "GH_TOKEN", ""
+            )
+        else:
+            api_key = os.environ.get("OPENAI_API_KEY", "") or os.environ.get(
+                "ANTHROPIC_API_KEY", ""
+            )
     return {
         "provider": provider,
         "base_url": base_url,
@@ -131,7 +142,7 @@ def _chat_anthropic(messages, system, cfg):
     return "\n".join(b.get("text", "") for b in blocks if b.get("type") == "text")
 
 
-def _chat_openai(messages, system, cfg):
+def _chat_openai(messages, system, cfg, extra_headers=None):
     url = cfg["base_url"].rstrip("/") + "/chat/completions"
     compiled = []
     if system:
@@ -146,11 +157,23 @@ def _chat_openai(messages, system, cfg):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {cfg['api_key']}",
     }
+    if extra_headers:
+        headers.update(extra_headers)
     data = _http_json(url, headers, body, cfg["timeout"])
     choices = data.get("choices", [])
     if not choices:
         raise LLMError("Réponse vide du fournisseur OpenAI-compatible.")
     return choices[0].get("message", {}).get("content", "")
+
+
+def _chat_github(messages, system, cfg):
+    """GitHub Models — OpenAI-compatible + `X-GitHub-Api-Version` header."""
+    return _chat_openai(
+        messages,
+        system,
+        cfg,
+        extra_headers={"X-GitHub-Api-Version": "2022-11-28"},
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -169,6 +192,8 @@ def chat(messages, system=None, config=None):
     provider = (cfg["provider"] or "").lower()
     if provider == "anthropic":
         return _chat_anthropic(messages, system, cfg)
+    if provider == "github":
+        return _chat_github(messages, system, cfg)
     if provider in ("openai", "openai-compatible"):
         return _chat_openai(messages, system, cfg)
     raise LLMError(f"Fournisseur inconnu : {cfg['provider']!r}")

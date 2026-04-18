@@ -9,7 +9,7 @@ from ArxioAITools import ai
 def open_dialog():
     """Open the config dialog, persist the result. Returns True on save."""
     try:
-        from PySide import QtWidgets
+        from PySide import QtCore, QtWidgets
     except ImportError:  # pragma: no cover
         FreeCAD.Console.PrintError(
             "Arxio AI: Qt indisponible, impossible d'afficher la configuration.\n"
@@ -33,7 +33,7 @@ def open_dialog():
     form = QtWidgets.QFormLayout()
 
     provider = QtWidgets.QComboBox()
-    provider.addItems(["anthropic", "openai"])
+    provider.addItems(["anthropic", "openai", "github"])
     provider.setCurrentText(cfg["provider"])
 
     base_url = QtWidgets.QLineEdit(cfg["base_url"])
@@ -91,17 +91,36 @@ def open_dialog():
         base_url.setText("http://localhost:11434/v1")
         model.setText("llama3.1:8b")
 
+    def _preset_github():
+        provider.setCurrentText("github")
+        base_url.setText("https://models.github.ai/inference")
+        model.setText("openai/gpt-4o-mini")
+
     btn_a = QtWidgets.QPushButton("Anthropic")
     btn_a.clicked.connect(_preset_anthropic)
     btn_o = QtWidgets.QPushButton("OpenAI")
     btn_o.clicked.connect(_preset_openai)
+    btn_g = QtWidgets.QPushButton("GitHub Models")
+    btn_g.clicked.connect(_preset_github)
     btn_l = QtWidgets.QPushButton("Ollama local")
     btn_l.clicked.connect(_preset_ollama)
     preset_row.addWidget(btn_a)
     preset_row.addWidget(btn_o)
+    preset_row.addWidget(btn_g)
     preset_row.addWidget(btn_l)
     preset_row.addStretch(1)
     layout.addLayout(preset_row)
+
+    hint = QtWidgets.QLabel(
+        "<span style='color:#666;'>"
+        "GitHub Models : créez un token <i>fine-grained</i> avec le scope "
+        "<code>Models → Read</code> sur github.com/settings/tokens, et collez-le "
+        "dans « Clé API »."
+        "</span>"
+    )
+    hint.setWordWrap(True)
+    hint.setTextFormat(QtCore.Qt.RichText)
+    layout.addWidget(hint)
 
     status = QtWidgets.QLabel("")
     status.setStyleSheet("color: #555;")

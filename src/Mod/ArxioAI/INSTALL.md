@@ -131,10 +131,26 @@ dans Git ni transmise ailleurs qu'à l'API du fournisseur choisi.
 
 **Alternatives sans clé payante :**
 
-- Utiliser **Ollama** en local (gratuit, aucune donnée ne quitte la
-  machine). Dans le préréglage « Ollama local » du dialogue, choisir
-  un modèle installé : `ollama pull llama3.1:8b` puis pointer sur
-  `http://localhost:11434/v1`.
+- **GitHub Models** (recommandé si vous avez déjà un compte GitHub —
+  quota gratuit généreux). Dans le préréglage « GitHub Models » :
+  1. Sur https://github.com/settings/tokens → *Generate new token
+     (fine-grained)*.
+  2. Scope minimal : **Models → Read**. Aucun autre scope nécessaire.
+  3. Coller le token `github_pat_…` dans le champ « Clé API » du
+     dialogue Arxio AI.
+  4. Modèles utiles : `openai/gpt-4o-mini` (rapide, peu cher),
+     `openai/gpt-4o` (qualité), `meta/Llama-3.3-70B-Instruct`,
+     `microsoft/Phi-4`.
+  
+  ⚠️ **Ne jamais coller le token dans un chat, un email, ou un fichier
+  versionné.** Il est stocké uniquement dans `user.cfg` local FreeCAD.
+  Si vous pensez qu'un token a fuité, **révoquez-le immédiatement**
+  sur github.com/settings/tokens.
+
+- **Ollama** en local (gratuit, 100 % offline, aucune donnée ne quitte
+  la machine). Dans le préréglage « Ollama local » :
+  `ollama pull llama3.1:8b` puis pointer sur `http://localhost:11434/v1`.
+
 - Les commandes **non-IA** (Murs, Toiture, Ouvertures, Plans, Devis,
   **Analyse solaire**) fonctionnent toujours sans clé.
 
