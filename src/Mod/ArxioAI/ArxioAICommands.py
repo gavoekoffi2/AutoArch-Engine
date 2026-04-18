@@ -10,12 +10,17 @@ import os
 import FreeCAD
 import FreeCADGui
 
-from ArxioAI.ArxioAITools import walls as aa_walls
-from ArxioAI.ArxioAITools import roof as aa_roof
-from ArxioAI.ArxioAITools import openings as aa_openings
-from ArxioAI.ArxioAITools import plan as aa_plan
-from ArxioAI.ArxioAITools import estimate as aa_estimate
-from ArxioAI.ArxioAITools import project as aa_project
+from ArxioAITools import walls as aa_walls
+from ArxioAITools import roof as aa_roof
+from ArxioAITools import openings as aa_openings
+from ArxioAITools import plan as aa_plan
+from ArxioAITools import estimate as aa_estimate
+from ArxioAITools import project as aa_project
+from ArxioAITools import ai_generate as aa_ai_generate
+from ArxioAITools import ai_review as aa_ai_review
+from ArxioAITools import ai_assistant as aa_ai_assistant
+from ArxioAITools import ai_config as aa_ai_config
+from ArxioAITools import solar as aa_solar
 
 
 def _icon(name):
@@ -233,6 +238,142 @@ class CmdEstimate:
 
 
 # ----------------------------------------------------------------------------
+# 6. Solar / orientation analysis (no API required)
+# ----------------------------------------------------------------------------
+class CmdSolarAnalysis:
+    def GetResources(self):
+        return {
+            "Pixmap": _icon("ArxioAI_Solar.svg"),
+            "MenuText": "Analyse solaire",
+            "ToolTip": (
+                "Calcule la position du soleil pour une date/heure/lieu donnés, "
+                "puis évalue l'orientation de chaque mur du projet (exposition, "
+                "cardinalité, ensoleillement)."
+            ),
+        }
+
+    def IsActive(self):
+        return FreeCAD.ActiveDocument is not None
+
+    def Activated(self):
+        try:
+            aa_solar.open_dialog(FreeCAD.ActiveDocument)
+        except Exception as exc:
+            _print_err(f"Échec analyse solaire : {exc}")
+
+
+# ----------------------------------------------------------------------------
+# 7. AI assistant chat
+# ----------------------------------------------------------------------------
+class CmdAIAssistant:
+    def GetResources(self):
+        return {
+            "Pixmap": _icon("ArxioAI_Assistant.svg"),
+            "MenuText": "Assistant IA",
+            "ToolTip": (
+                "Ouvre la fenêtre de chat avec Arxio AI. Le contexte du document "
+                "actif (quantitatifs, objets) est joint automatiquement."
+            ),
+        }
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        try:
+            aa_ai_assistant.open_dialog()
+        except Exception as exc:
+            _print_err(f"Assistant indisponible : {exc}")
+
+
+# ----------------------------------------------------------------------------
+# 8. Generate a building from a natural-language brief
+# ----------------------------------------------------------------------------
+class CmdGenerateFromBrief:
+    def GetResources(self):
+        return {
+            "Pixmap": _icon("ArxioAI_Generate.svg"),
+            "MenuText": "Générer depuis brief",
+            "ToolTip": (
+                "Décrivez le projet en langage naturel ; l'IA produit un plan "
+                "de base (pièces, murs, ouvertures) prêt à être affiné."
+            ),
+        }
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        try:
+            brief = aa_ai_generate.prompt_brief()
+            if not brief:
+                return
+            doc = _active_doc_or_new("Arxio_Brief")
+            _print_ok("Génération en cours — interrogation du modèle IA…")
+            FreeCADGui.updateGui() if hasattr(FreeCADGui, "updateGui") else None
+            spec = aa_ai_generate.generate_spec(brief)
+            summary = aa_ai_generate.apply_spec(doc, spec)
+            _print_ok(
+                f"Projet généré : {summary['project_name']} — "
+                f"{len(summary['rooms'])} pièce(s), {summary['openings']} ouverture(s)."
+            )
+        except Exception as exc:
+            _print_err(f"Génération impossible : {exc}")
+
+
+# ----------------------------------------------------------------------------
+# 9. AI design review
+# ----------------------------------------------------------------------------
+class CmdDesignReview:
+    def GetResources(self):
+        return {
+            "Pixmap": _icon("ArxioAI_Review.svg"),
+            "MenuText": "Revue IA du projet",
+            "ToolTip": (
+                "Envoie un résumé du document actif à l'IA pour obtenir une "
+                "relecture critique : alertes fonctionnelles, réglementaires, "
+                "optimisations budgétaires."
+            ),
+        }
+
+    def IsActive(self):
+        return FreeCAD.ActiveDocument is not None
+
+    def Activated(self):
+        try:
+            _print_ok("Revue en cours — analyse du document et appel IA…")
+            FreeCADGui.updateGui() if hasattr(FreeCADGui, "updateGui") else None
+            text = aa_ai_review.review(FreeCAD.ActiveDocument)
+            aa_ai_review.show_review(text)
+        except Exception as exc:
+            _print_err(f"Revue IA impossible : {exc}")
+
+
+# ----------------------------------------------------------------------------
+# 10. Configure the LLM provider / API key
+# ----------------------------------------------------------------------------
+class CmdConfigureAI:
+    def GetResources(self):
+        return {
+            "Pixmap": _icon("ArxioAI_Configure.svg"),
+            "MenuText": "Configurer l'IA",
+            "ToolTip": (
+                "Sélectionne le fournisseur LLM (Anthropic, OpenAI, local Ollama…), "
+                "le modèle, et enregistre votre clé API dans le paramètre FreeCAD."
+            ),
+        }
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        try:
+            aa_ai_config.open_dialog()
+        except Exception as exc:
+            _print_err(f"Configuration impossible : {exc}")
+
+
+# ----------------------------------------------------------------------------
 # Command registration
 # ----------------------------------------------------------------------------
 FreeCADGui.addCommand("ArxioAI_SetupProject", CmdSetupProject())
@@ -241,3 +382,8 @@ FreeCADGui.addCommand("ArxioAI_AutoRoof", CmdAutoRoof())
 FreeCADGui.addCommand("ArxioAI_PlaceOpenings", CmdPlaceOpenings())
 FreeCADGui.addCommand("ArxioAI_AutoPlan", CmdAutoPlan())
 FreeCADGui.addCommand("ArxioAI_Estimate", CmdEstimate())
+FreeCADGui.addCommand("ArxioAI_SolarAnalysis", CmdSolarAnalysis())
+FreeCADGui.addCommand("ArxioAI_Assistant", CmdAIAssistant())
+FreeCADGui.addCommand("ArxioAI_GenerateFromBrief", CmdGenerateFromBrief())
+FreeCADGui.addCommand("ArxioAI_DesignReview", CmdDesignReview())
+FreeCADGui.addCommand("ArxioAI_Configure", CmdConfigureAI())

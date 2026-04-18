@@ -47,7 +47,7 @@ class ArxioAIWorkbench(FreeCADGui.Workbench):
             FreeCADGui.addIconPath(icon_dir)
 
         # Import commands — this registers them with FreeCADGui
-        from ArxioAI import ArxioAICommands  # noqa: F401
+        import ArxioAICommands  # noqa: F401
 
         self.modeling_cmds = [
             "ArxioAI_SetupProject",
@@ -58,11 +58,26 @@ class ArxioAIWorkbench(FreeCADGui.Workbench):
         self.doc_cmds = [
             "ArxioAI_AutoPlan",
             "ArxioAI_Estimate",
+            "ArxioAI_SolarAnalysis",
+        ]
+        self.ai_cmds = [
+            "ArxioAI_Assistant",
+            "ArxioAI_GenerateFromBrief",
+            "ArxioAI_DesignReview",
+            "ArxioAI_Configure",
         ]
 
         self.appendToolbar("Arxio AI — Modélisation", self.modeling_cmds)
         self.appendToolbar("Arxio AI — Documents", self.doc_cmds)
-        self.appendMenu("&Arxio AI", self.modeling_cmds + ["Separator"] + self.doc_cmds)
+        self.appendToolbar("Arxio AI — Intelligence", self.ai_cmds)
+        self.appendMenu(
+            "&Arxio AI",
+            self.modeling_cmds
+            + ["Separator"]
+            + self.doc_cmds
+            + ["Separator"]
+            + self.ai_cmds,
+        )
 
         FreeCAD.Console.PrintLog("Arxio AI: workbench initialised\n")
 

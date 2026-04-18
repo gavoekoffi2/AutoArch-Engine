@@ -18,6 +18,12 @@ set(ArxioAITools_PY
     ArxioAITools/openings.py
     ArxioAITools/plan.py
     ArxioAITools/estimate.py
+    ArxioAITools/solar.py
+    ArxioAITools/ai.py
+    ArxioAITools/ai_config.py
+    ArxioAITools/ai_generate.py
+    ArxioAITools/ai_review.py
+    ArxioAITools/ai_assistant.py
 )
 
 set(ArxioAI_Icons
@@ -28,6 +34,11 @@ set(ArxioAI_Icons
     Resources/icons/ArxioAI_Openings.svg
     Resources/icons/ArxioAI_AutoPlan.svg
     Resources/icons/ArxioAI_Estimate.svg
+    Resources/icons/ArxioAI_Solar.svg
+    Resources/icons/ArxioAI_Assistant.svg
+    Resources/icons/ArxioAI_Generate.svg
+    Resources/icons/ArxioAI_Review.svg
+    Resources/icons/ArxioAI_Configure.svg
 )
 
 # Copy to build tree so the workbench is usable without installing.
