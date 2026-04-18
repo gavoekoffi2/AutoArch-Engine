@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+    <name>Arxio AI</name>
+    <description>
+        Smart automation toolkit for architects. Turn 2D sketches into
+        permit-ready 3D plans in minutes: one-click house, fast walls,
+        smart doors and windows, auto roof and slab, quantity takeoff,
+        sun study and PDF export.
+    </description>
+    <version>1.0.0</version>
+    <date>2026-04-18</date>
+
+    <maintainer email="hello@arxio.ai">Arxio AI</maintainer>
+    <author email="hello@arxio.ai">Arxio AI</author>
+
+    <license>LGPL-2.1-or-later</license>
+    <url type="homepage">https://arxio.ai</url>
+
+    <content>
+        <workbench classname="ArxioWorkbench">
+            <description>Arxio AI - Smart automation for architects.</description>
+            <icon>Resources/icons/ArxioWorkbench.svg</icon>
+            <tags>architecture,bim,automation,ai,plans</tags>
+            <classname>ArxioWorkbench</classname>
+        </workbench>
+    </content>
+</package>

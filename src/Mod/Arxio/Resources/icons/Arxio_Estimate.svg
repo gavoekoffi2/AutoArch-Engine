@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Clipboard -->
+  <rect x="12" y="8" width="40" height="50" rx="4" ry="4"
+        fill="#e6edf3" stroke="#24292f" stroke-width="2"/>
+  <rect x="22" y="4" width="20" height="8" rx="2" ry="2"
+        fill="#1f6feb" stroke="#24292f" stroke-width="1.8"/>
+  <!-- Rows -->
+  <line x1="18" y1="22" x2="46" y2="22" stroke="#8b949e" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="18" y1="30" x2="40" y2="30" stroke="#8b949e" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="18" y1="38" x2="44" y2="38" stroke="#8b949e" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Euro symbol -->
+  <text x="32" y="54" font-family="Arial, sans-serif" font-weight="700"
+        font-size="14" text-anchor="middle" fill="#2ea043">€</text>
+</svg>

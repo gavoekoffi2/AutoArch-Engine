@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Roof -->
+  <path d="M8 30 L32 10 L56 30 Z"
+        fill="#f78166" stroke="#24292f" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Walls -->
+  <rect x="14" y="30" width="36" height="22" fill="#e6edf3" stroke="#24292f" stroke-width="2"/>
+  <!-- Door -->
+  <rect x="28" y="38" width="8" height="14" fill="#1f6feb" stroke="#24292f" stroke-width="1.5"/>
+  <!-- Window -->
+  <rect x="18" y="36" width="7" height="7" fill="#7ee8fa" stroke="#24292f" stroke-width="1.2"/>
+  <rect x="39" y="36" width="7" height="7" fill="#7ee8fa" stroke="#24292f" stroke-width="1.2"/>
+  <!-- Sparkle (AI hint) -->
+  <circle cx="54" cy="12" r="3" fill="#7ee8fa"/>
+  <path d="M54 6 L54 10 M54 14 L54 18 M48 12 L52 12 M56 12 L60 12"
+        stroke="#7ee8fa" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

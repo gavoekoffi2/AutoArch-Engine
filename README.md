@@ -1,113 +1,69 @@
-<a href="https://freecad.org"><img src="/src/Gui/Icons/freecad.svg" height="100px" width="100px"></a>
+<p align="center">
+  <img src="src/Mod/Arxio/Resources/icons/ArxioWorkbench.svg" width="96" height="96" alt="Arxio AI"/>
+</p>
 
-### Your own 3D Parametric Modeler
-
-[Website](https://www.freecad.org) •
-[Documentation](https://wiki.freecad.org) •
-[Forum](https://forum.freecad.org/) •
-[Bug tracker](https://github.com/FreeCAD/FreeCAD/issues) •
-[Git repository](https://github.com/FreeCAD/FreeCAD) •
-[Blog](https://blog.freecad.org)
-
-
-[![Release](https://img.shields.io/github/release/freecad/freecad.svg)](https://github.com/freecad/freecad/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/freecad/localized.svg)](https://crowdin.com/project/freecad)
-
-<img src="/.github/images/partdesign.png" width="800"/>
-
-Overview
---------
-
-* **Freedom to build what you want**  FreeCAD is an open-source parametric 3D 
-modeler made primarily to design real-life objects of any size. 
-Parametric modeling allows you to easily modify your design by going back into 
-your model history to change its parameters. 
-
-* **Create 3D from 2D and back** FreeCAD lets you sketch geometry-constrained
- 2D shapes and use them as a base to build other objects.
- It contains many components to adjust dimensions or extract design details from 
- 3D models to create high quality production-ready drawings.
-
-* **Designed for your needs** FreeCAD is designed to fit a wide range of uses
-including product design, mechanical engineering and architecture,
-whether you are a hobbyist, programmer, experienced CAD user, student or teacher.
-
-* **Cross platform** FreeCAD runs on Windows, macOS and Linux operating systems.
-
-* **Underlying technology**
-    * **OpenCASCADE** A powerful geometry kernel, the most important component of FreeCAD
-    * **Coin3D library** Open Inventor-compliant 3D scene representation model
-    * **Python** FreeCAD offers a broad Python API
-    * **Qt** Graphical user interface built with Qt
-
-
-Installing
-----------
-
-Precompiled packages for stable releases are available for Windows, macOS and Linux on the
-[latest releases page](https://github.com/FreeCAD/FreeCAD/releases/latest).
-
-On most Linux distributions, FreeCAD is also directly installable from the 
-software center application.
-
-For weekly development releases visit the [releases page](https://github.com/FreeCAD/FreeCAD/releases/).
-
-Other options are described on the [wiki Download page](https://wiki.freecad.org/Download).
-
-Compiling
----------
-
-See the [Developers Handbook – Getting Started](https://freecad.github.io/DevelopersHandbook/gettingstarted/)
-for build instructions.
-
-
-Reporting Issues
----------
-
-To report an issue please:
-
-- Consider posting to the [Forum](https://forum.freecad.org), [Discord](https://discord.com/invite/w2cTKGzccC) channel, or [Reddit](https://www.reddit.com/r/FreeCAD) to verify the issue; 
-- Search the existing [issues](https://github.com/FreeCAD/FreeCAD/issues) for potential duplicates; 
-- Use the most updated stable or [development versions](https://github.com/FreeCAD/FreeCAD/releases/) of FreeCAD; 
-- Post version info from `Help > About FreeCAD > Copy to clipboard`; 
-- Restart FreeCAD in safe mode `Help > Restart in safe mode` and try to reproduce the issue again. If the issue is resolved it can be fixed by deleting the FreeCAD config files.
-- Start recording a macro `Macro > Macro recording...` and repeat all steps. Stop recording after the issue occurs and upload the saved macro or copy the macro code in the issue; 
-- Post a Step-By-Step explanation on how to recreate the issue; 
-- Upload an example file (FCStd as ZIP file) to demonstrate the problem; 
-
-For more details see:
-
-- [Bug Tracker](https://github.com/FreeCAD/FreeCAD/issues)
-- [Reporting Issues and Requesting Features](https://github.com/FreeCAD/FreeCAD/issues/new/choose)
-- [Contributing](https://github.com/FreeCAD/FreeCAD/blob/main/CONTRIBUTING.md)
-- [Help Forum](https://forum.freecad.org/viewforum.php?f=3)
-
-> [!NOTE]
-The [FPA](https://fpa.freecad.org) offers developers the opportunity
-to apply for a grant to work on projects of their choosing. Check
-[jobs and funding](https://blog.freecad.org/jobs/) to know more.
-
-
-Usage & Getting Help
---------------------
-
-The FreeCAD wiki contains documentation on 
-general FreeCAD usage, Python scripting, and development.
-View these pages for more information:
-
-- [Getting started](https://wiki.freecad.org/Getting_started)
-- [Features list](https://wiki.freecad.org/Feature_list)
-- [Frequent questions](https://wiki.freecad.org/FAQ/en)
-- [Workbenches](https://wiki.freecad.org/Workbenches)
-- [Scripting](https://wiki.freecad.org/Power_users_hub)
-- [Developers Handbook](https://freecad.github.io/DevelopersHandbook/)
-
-The [FreeCAD forum](https://forum.freecad.org) is a great place
-to find help and solve specific problems when learning to use FreeCAD.
+<h1 align="center">Arxio AI</h1>
+<p align="center"><em>Smart automation for architects — from sketch to permit in minutes.</em></p>
 
 ---
 
-<p>This project receives generous infrastructure support from
-  <a href="https://www.digitalocean.com/">
-    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="91px">
-  </a> and <a href="https://www.kipro-pcb.com/">KiCad Services Corp.</a>
-</p>
+## What is Arxio AI?
+
+**Arxio AI** is an opinionated, automation-first architecture workbench.
+It gives architects a small, carefully curated set of one-click tools
+that turn 2D sketches into a permit-ready 3D building — walls, doors,
+windows, roof, slab, estimate and printed plan — without having to
+learn a full parametric CAD application first.
+
+Arxio AI is built on top of the battle-tested
+[FreeCAD](https://www.freecad.org) kernel, so every object remains a
+fully editable, IFC-compatible BIM model. You keep every door you want
+open: edit the details, export to IFC/DXF/PDF, collaborate with any BIM
+partner.
+
+## Key features
+
+| Command            | What it does                                                              |
+|--------------------|---------------------------------------------------------------------------|
+| 🏠 Preset House    | Generate a full single-story house (walls, door, windows, slab, roof).    |
+| 🧱 Fast Walls      | Turn every selected line, rectangle or sketch into a 3D wall.             |
+| 🚪 Smart Openings  | Place doors or windows on any selected wall with a single click.          |
+| 🏚 Auto Roof & Slab| Cap the building with a pitched roof and drop a ground slab underneath.  |
+| 📊 Estimate        | Quantity takeoff + first-pass cost estimate using standard unit prices.   |
+| ☀️ Sun Study       | Compute the sun direction for any site, date and hour.                    |
+| 📜 Auto Plan 2D    | Create a permit-ready TechDraw page with plan and elevations at 1/50.     |
+| 📄 Export PDF      | Export the active plan to a printable PDF.                                |
+
+## Quick start
+
+1. Open FreeCAD.
+2. Switch the workbench selector to **Arxio AI**.
+3. Click **Preset House** (shortcut `A, H`) and pick your dimensions.
+4. Run **Auto Plan 2D** to generate the permit page.
+5. Run **Export PDF** to share the drawing with your client.
+
+## Building from source
+
+Arxio AI ships as a standard FreeCAD module. The build system already
+knows about it (`BUILD_ARXIO`, default `ON`). Follow the [FreeCAD
+Developers Handbook](https://freecad.github.io/DevelopersHandbook/) for
+platform-specific instructions, then build as usual:
+
+```bash
+cmake -S . -B build -DBUILD_ARXIO=ON
+cmake --build build --parallel
+```
+
+The workbench is pure Python — there is no native code to cross-compile.
+
+## Licensing & attribution
+
+- Arxio AI source code: **LGPL v2.1 or later** (same as FreeCAD).
+- Built on top of FreeCAD © the FreeCAD developers. See `LICENSE` for
+  the full text and the upstream attribution.
+
+## Support
+
+- Documentation: inside the workbench (`Arxio AI → Welcome`).
+- Website: <https://arxio.ai>
+- Contact: hello@arxio.ai

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- 2D line on the left that becomes 3D wall on the right -->
+  <line x1="6" y1="32" x2="22" y2="32" stroke="#1f6feb" stroke-width="3" stroke-linecap="round"/>
+  <!-- Transition arrow -->
+  <path d="M24 32 L32 32 M28 28 L32 32 L28 36"
+        stroke="#8b949e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 3D wall (parallelogram) -->
+  <polygon points="36,44 52,44 58,34 42,34"
+           fill="#e6edf3" stroke="#24292f" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="36,44 36,20 42,10 42,34"
+           fill="#b1bac4" stroke="#24292f" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="42,10 58,10 58,34 42,34"
+           fill="#d1d9e0" stroke="#24292f" stroke-width="2" stroke-linejoin="round"/>
+</svg>

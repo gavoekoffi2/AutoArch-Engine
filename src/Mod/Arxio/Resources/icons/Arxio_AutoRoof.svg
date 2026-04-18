@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Slab -->
+  <polygon points="6,54 32,62 58,54 32,46"
+           fill="#8b949e" stroke="#24292f" stroke-width="1.8" stroke-linejoin="round"/>
+  <!-- Walls footprint -->
+  <polygon points="12,46 32,52 52,46 32,40"
+           fill="#d1d9e0" stroke="#24292f" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Roof -->
+  <polygon points="8,34 32,8 56,34 32,44"
+           fill="#f78166" stroke="#24292f" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="32" y1="8" x2="32" y2="44" stroke="#24292f" stroke-width="1.2"/>
+</svg>
