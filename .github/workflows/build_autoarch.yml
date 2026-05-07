@@ -6,8 +6,6 @@ name: AutoArch Engine Build
 on:
   push:
     branches: [main]
-    paths:
-      - 'src/Mod/AutoArch/**'
   workflow_dispatch:
 
 jobs:

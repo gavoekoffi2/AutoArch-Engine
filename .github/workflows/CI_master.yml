@@ -23,17 +23,19 @@
 
 # This is the master workflow for CI of FreeCAD.
 # It (only) aims at properly organizing the sub-workflows.
+# ⚠️ DÉSACTIVÉ pour AutoArch-Engine — consomme trop de ressources.
+# Utiliser plutôt : .github/workflows/build_autoarch.yml
 
 name: FreeCAD master CI
 
 on:
   workflow_dispatch: ~
-  push:
-    branches:
-      - main
-      - releases/**
-  pull_request:
-    types: [opened, synchronize, reopened, labeled]
+  # push:          # DÉSACTIVÉ — trop lourd pour le fork AutoArch
+  #   branches:
+  #     - main
+  #     - releases/**
+  # pull_request:  # DÉSACTIVÉ
+  #   types: [opened, synchronize, reopened, labeled]
   merge_group: ~
 
 
