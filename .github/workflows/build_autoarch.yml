@@ -1,0 +1,161 @@
+# Workflow AutoArch Engine — Bundle avec FreeCAD
+# Télécharge FreeCAD pré-compilé + injecte le module AutoArch → ZIP prêt à l'emploi
+
+name: AutoArch Engine Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/Mod/AutoArch/**'
+  workflow_dispatch:
+
+jobs:
+  # ─── LINUX APPKIT ───────────────────────────────────────────
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Télécharger FreeCAD AppImage
+        run: |
+          mkdir -p AutoArch_Linux/FreeCAD
+          cd AutoArch_Linux/FreeCAD
+          wget -q "https://github.com/FreeCAD/FreeCAD/releases/download/1.0.0/FreeCAD_1.0.0-conda-Linux-x86_64-py311.AppImage" -O FreeCAD.AppImage
+          chmod +x FreeCAD.AppImage
+          # Extraire l'AppImage pour injecter le module
+          ./FreeCAD.AppImage --appimage-extract > /dev/null 2>&1
+          mv squashfs-root/* .
+          rm -rf squashfs-root FreeCAD.AppImage
+
+      - name: 🔧 Injecter module AutoArch
+        run: |
+          mkdir -p AutoArch_Linux/FreeCAD/usr/Mod/AutoArch
+          cp -r src/Mod/AutoArch/* AutoArch_Linux/FreeCAD/usr/Mod/AutoArch/
+
+      - name: 🚀 Script de lancement
+        run: |
+          cat > AutoArch_Linux/Launch_AutoArch.sh << 'EOF'
+          #!/bin/bash
+          DIR="$(cd "$(dirname "$0")" && pwd)"
+          export FREECAD_USER_DATA="$DIR/AutoArch_Data"
+          mkdir -p "$FREECAD_USER_DATA/Mod"
+          cp -r "$DIR/FreeCAD/usr/Mod/AutoArch" "$FREECAD_USER_DATA/Mod/"
+          "$DIR/FreeCAD/usr/bin/freecad" --write-log
+          EOF
+          chmod +x AutoArch_Linux/Launch_AutoArch.sh
+
+      - name: 📦 Packager ZIP
+        run: |
+          cd AutoArch_Linux
+          zip -r ../AutoArch-Engine-Linux.zip . > /dev/null
+          cd ..
+          echo "✅ Linux: $(du -sh AutoArch-Engine-Linux.zip | cut -f1)"
+
+      - name: ⬆️ Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AutoArch-Engine-Linux
+          path: AutoArch-Engine-Linux.zip
+
+  # ─── WINDOWS PORTABLE ──────────────────────────────────────
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Télécharger FreeCAD Windows Portable
+        shell: pwsh
+        run: |
+          mkdir AutoArch_Windows
+          cd AutoArch_Windows
+          # Télécharger la version portable 7z
+          Invoke-WebRequest -Uri "https://github.com/FreeCAD/FreeCAD/releases/download/1.0.0/FreeCAD_1.0.0-conda-Windows-x86_64-py311.7z" -OutFile "FreeCAD.7z"
+          # Extraire
+          7z x FreeCAD.7z -oFreeCAD > $null
+          Remove-Item FreeCAD.7z
+
+      - name: 🔧 Injecter module AutoArch
+        shell: pwsh
+        run: |
+          $modDir = Get-ChildItem -Path "AutoArch_Windows/FreeCAD" -Directory | Select-Object -First 1
+          $target = "$modDir/Mod/AutoArch"
+          New-Item -ItemType Directory -Force -Path $target | Out-Null
+          Copy-Item -Path "src/Mod/AutoArch/*" -Destination $target -Recurse
+
+      - name: 🚀 Script de lancement Windows
+        shell: pwsh
+        run: |
+          @"
+          @echo off
+          title AutoArch Engine
+          cd /d "%~dp0FreeCAD\"
+          for /d %%i in (*) do cd "%%i"
+          set FREECAD_USER_DATA=%CD%\..\AutoArch_Data
+          mkdir "%FREECAD_USER_DATA%\Mod" 2>nul
+          xcopy /E /Y "Mod\AutoArch" "%FREECAD_USER_DATA%\Mod\AutoArch\" >nul
+          start bin\freecad.exe --write-log
+          "@ | Out-File -FilePath AutoArch_Windows/Launch_AutoArch.bat -Encoding ASCII
+
+      - name: 📦 Packager ZIP
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "AutoArch_Windows/*" -DestinationPath "AutoArch-Engine-Windows.zip"
+          $size = (Get-Item "AutoArch-Engine-Windows.zip").Length / 1MB
+          Write-Host "✅ Windows: $([math]::Round($size,0)) MB"
+
+      - name: ⬆️ Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AutoArch-Engine-Windows
+          path: AutoArch-Engine-Windows.zip
+
+  # ─── CRÉER RELEASE ──────────────────────────────────────────
+  release:
+    needs: [linux, windows]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: 📥 Download Linux
+        uses: actions/download-artifact@v4
+        with:
+          name: AutoArch-Engine-Linux
+
+      - name: 📥 Download Windows
+        uses: actions/download-artifact@v4
+        with:
+          name: AutoArch-Engine-Windows
+
+      - name: 🏷️ Créer Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "AutoArch Engine v2.0 — ${{ github.sha }}"
+          tag_name: "v2.0-${{ github.run_number }}"
+          files: |
+            AutoArch-Engine-Windows.zip
+            AutoArch-Engine-Linux.zip
+          body: |
+            ## 🏗️ AutoArch Engine v2.0
+            
+            **10 outils d'automatisation pour architectes**
+            
+            ### Nouveautés v2
+            - 🚶 Visite Virtuelle (navigation first-person)
+            - 🪑 Meubler Auto (25+ meubles, 6 pièces)
+            - 🎨 Textures Réalistes
+            - ✂️ Coupe Interactive
+            - 🌐 Export Web 3D
+            - 🏷️ Étiquettes Pièces
+            
+            ### Installation
+            1. Télécharger le ZIP pour votre OS
+            2. Extraire
+            3. Lancer `Launch_AutoArch` (.bat Windows / .sh Linux)
+            
+            Basé sur FreeCAD 1.0.0 | Module AutoArch par @gavoekoffi2
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
